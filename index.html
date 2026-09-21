@@ -19,7 +19,7 @@
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
 
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+  <header class="fixed top-0 left-0 right-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center font-bold text-slate-950 text-xl shadow-lg shadow-cyan-500/20">
@@ -153,21 +153,27 @@
         <p class="text-slate-400">Жеке жергілікті AI-гидке қосылу үшін картадан қаланы таңдаңыз</p>
       </div>
 
-      <div class="relative w-full h-[500px] md:h-[600px] rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+      <div class="relative w-full h-[550px] md:h-[650px] rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
         <!-- Canvas 3D -->
         <div id="canvas-container" class="w-full h-full cursor-grab"></div>
 
-        <!-- City Selector Info Panel -->
-        <div id="city-info-panel" class="absolute bottom-6 left-6 right-6 md:right-auto md:w-80 bg-slate-950/90 backdrop-blur-md p-6 rounded-2xl border border-slate-800 shadow-xl hidden">
-          <div class="flex items-center justify-between mb-2">
-            <h4 id="city-title" class="text-xl font-bold text-white">Қала</h4>
-            <span class="text-xs px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">AI Белсенді</span>
+        <!-- City Selector Info Panel (With Photo On Top) -->
+        <div id="city-info-panel" class="absolute bottom-6 left-6 right-6 md:right-auto md:w-80 bg-slate-950/95 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-hidden hidden transition-all duration-300">
+          <!-- City Image -->
+          <div class="h-40 w-full relative overflow-hidden bg-slate-900">
+            <img id="city-img" src="" alt="City Photo" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+            <span class="absolute top-3 right-3 text-xs px-2.5 py-1 rounded-full bg-cyan-500/80 text-slate-950 font-bold backdrop-blur-md shadow-md">AI Active</span>
           </div>
-          <p id="city-desc" class="text-sm text-slate-400 mb-4">Жеке гидті іске қосу үшін орынды таңдаңыз.</p>
-          <button id="city-btn" class="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all flex items-center justify-center gap-2 text-sm">
-            <span>Гидті белсендіру</span>
-            <i data-lucide="bot" class="w-4 h-4"></i>
-          </button>
+          
+          <div class="p-5 space-y-3">
+            <h4 id="city-title" class="text-2xl font-bold text-white">Қала</h4>
+            <p id="city-desc" class="text-sm text-slate-300 leading-relaxed">Жеке гидті іске қосу үшін орынды таңдаңыз.</p>
+            <button id="city-btn" onclick="openChatWithCity()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 hover:opacity-95 text-slate-950 font-bold transition-all flex items-center justify-center gap-2 text-sm shadow-lg shadow-cyan-500/20">
+              <span>Гидті белсендіру</span>
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </button>
+          </div>
         </div>
 
         <div class="absolute top-6 left-6 text-xs text-slate-400 bg-slate-950/70 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-800 pointer-events-none">
@@ -243,6 +249,66 @@
     <p>© 2026 QazaqGuide.AI. Барлық құқықтар қорғалған. Қазақстандағы интеллектуалды туризм.</p>
   </footer>
 
+  <!-- FLOATING CHAT WIDGET (Bottom Right) -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <!-- Chat Button -->
+    <button id="chat-toggle-btn" onclick="toggleChat()" class="w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-500 to-emerald-400 text-slate-950 flex items-center justify-center shadow-xl shadow-cyan-500/30 hover:scale-105 transition-transform relative">
+      <i data-lucide="message-square" id="chat-icon-open" class="w-7 h-7"></i>
+      <i data-lucide="x" id="chat-icon-close" class="w-7 h-7 hidden"></i>
+      <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-slate-950 animate-pulse"></span>
+    </button>
+
+    <!-- Chat Window Container -->
+    <div id="chat-widget" class="hidden absolute bottom-20 right-0 w-[90vw] max-w-[380px] h-[520px] bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300">
+      
+      <!-- Widget Header -->
+      <div class="p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md">
+            AI
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">QazaqGuide Assistant</h4>
+            <p class="text-[11px] text-emerald-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Онлайн • Дайын
+            </p>
+          </div>
+        </div>
+        <button onclick="toggleChat()" class="text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Messages Box -->
+      <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs leading-relaxed">
+        <!-- AI Initial Greeting -->
+        <div class="flex items-start gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs shrink-0 font-bold">
+            Q
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl rounded-tl-none text-slate-200">
+            Армысыз! Мен сіздің Қазақстан бойынша жеке AI-гидіңізбін. Қай қалаға саяхаттауды жоспарлап отырсыз немесе не көгіңіз келеді?
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Suggestion Buttons -->
+      <div class="px-3 py-2 bg-slate-900/40 border-t border-slate-800/60 flex items-center gap-2 overflow-x-auto no-scrollbar text-[11px]">
+        <button onclick="sendQuickMessage('Алматыда не көруге болады?')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-cyan-500 shrink-0">🏔️ Алматыда не көруге болады?</button>
+        <button onclick="sendQuickMessage('Бешбармақ жейтін үздік орын')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-cyan-500 shrink-0">🥩 Ең дәмді бешбармақ</button>
+      </div>
+
+      <!-- Input Field -->
+      <div class="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2">
+        <input id="chat-input" type="text" placeholder="Сұрағыңызды жазыңыз..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500">
+        <button onclick="sendMessage()" class="p-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-colors">
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Scripts Logic -->
   <script>
     // Initialize Icons
@@ -285,21 +351,47 @@
     mapPlane.rotation.x = -Math.PI / 2;
     scene.add(mapPlane);
 
-    // City Markers Data (Kazakh Translations)
+    // City Markers Data with Images
     const cities = [
-      { name: "Астана", desc: "Елорда: сәулет өнері, Бәйтерек, бизнес және футуризм.", x: 1, z: -2, color: 0x06b6d4 },
-      { name: "Алматы", desc: "Таулар, Медеу, Шымбұлақ, гастрономия және алма өлкесі.", x: 6, z: 3, color: 0x10b981 },
-      { name: "Шымкент", desc: "Оңтүстік колорит, тарих, ең дәмді бешбармақ пен қонақжайлылық.", x: 2, z: 4, color: 0xf59e0b },
-      { name: "Ақтау", desc: "Каспий теңізі, жағажайлар, каньондар және Маңғыстаудың ерекше табиғаты.", x: -7, z: 2, color: 0x6366f1 },
-      { name: "Түркістан", desc: "Рухани елорда, Ясауи кесенесі және шығыс ертегісі.", x: 0, z: 3.5, color: 0xec4899 }
+      { 
+        name: "Астана", 
+        desc: "Елорда: сәулет өнері, Бәйтерек, бизнес және футуризм.", 
+        img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
+        x: 1, z: -2, color: 0x06b6d4 
+      },
+      { 
+        name: "Алматы", 
+        desc: "Таулар, Медеу, Шымбұлақ, гастрономия және алма өлкесі.", 
+        img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80", // При необходимости замените ссылкой на локальный файл
+        x: 6, z: 3, color: 0x10b981 
+      },
+      { 
+        name: "Шымкент", 
+        desc: "Оңтүстік колорит, тарих, ең дәмді бешбармақ пен қонақжайлылық.", 
+        img: "https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80",
+        x: 2, z: 4, color: 0xf59e0b 
+      },
+      { 
+        name: "Ақтау", 
+        desc: "Каспий теңізі, жағажайлар, каньондар және Маңғыстаудың ерекше табиғаты.", 
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+        x: -7, z: 2, color: 0x6366f1 
+      },
+      { 
+        name: "Түркістан", 
+        desc: "Рухани елорда, Ясауи кесенесі және шығыс ертегісі.", 
+        img: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
+        x: 0, z: 3.5, color: 0xec4899 
+      }
     ];
+
+    let currentSelectedCity = "";
 
     const markers = [];
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
     cities.forEach(city => {
-      // Pin Geometry
       const pinGeo = new THREE.SphereGeometry(0.4, 16, 16);
       const pinMat = new THREE.MeshStandardMaterial({ color: city.color, emissive: city.color, emissiveIntensity: 0.5 });
       const pin = new THREE.Mesh(pinGeo, pinMat);
@@ -308,7 +400,6 @@
       scene.add(pin);
       markers.push(pin);
 
-      // Light beam under pin
       const cylinderGeo = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8);
       const cylinderMat = new THREE.MeshBasicMaterial({ color: city.color, transparent: true, opacity: 0.5 });
       const beam = new THREE.Mesh(cylinderGeo, cylinderMat);
@@ -316,7 +407,6 @@
       scene.add(beam);
     });
 
-    // Animation Loop
     function animate() {
       requestAnimationFrame(animate);
       markers.forEach(pin => {
@@ -330,6 +420,8 @@
     // Click Detection on Pins
     window.addEventListener('click', (e) => {
       const rect = renderer.domElement.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) return;
+
       mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
 
@@ -338,9 +430,13 @@
 
       if (intersects.length > 0) {
         const selectedCity = intersects[0].object.userData;
+        currentSelectedCity = selectedCity.name;
+        
+        document.getElementById('city-img').src = selectedCity.img;
         document.getElementById('city-title').innerText = selectedCity.name;
         document.getElementById('city-desc').innerText = selectedCity.desc;
         document.getElementById('city-btn').querySelector('span').innerText = `${selectedCity.name} қ. бойынша ИИ-гидті ашу`;
+        
         document.getElementById('city-info-panel').classList.remove('hidden');
       }
     });
@@ -351,6 +447,70 @@
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
+
+    // --- Chat Widget Logic ---
+    function toggleChat() {
+      const widget = document.getElementById('chat-widget');
+      const iconOpen = document.getElementById('chat-icon-open');
+      const iconClose = document.getElementById('chat-icon-close');
+      
+      if (widget.classList.contains('hidden')) {
+        widget.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      } else {
+        widget.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+    }
+
+    function openChatWithCity() {
+      toggleChat();
+      if (currentSelectedCity) {
+        sendQuickMessage(`${currentSelectedCity} қаласы бойынша гидті қос`);
+      }
+    }
+
+    function sendQuickMessage(text) {
+      const chatMessages = document.getElementById('chat-messages');
+      
+      // User Message
+      const userMsgHTML = `
+        <div class="flex items-start justify-end gap-2.5">
+          <div class="bg-cyan-500 text-slate-950 font-medium p-3 rounded-2xl rounded-tr-none">
+            ${text}
+          </div>
+        </div>
+      `;
+      chatMessages.innerHTML += userMsgHTML;
+
+      // AI Response Simulation
+      setTimeout(() => {
+        const aiMsgHTML = `
+          <div class="flex items-start gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs shrink-0 font-bold">
+              Q
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl rounded-tl-none text-slate-200">
+              Тамаша таңдау! ${text.includes('Алматы') || text.includes('Алматыда') ? 'Алматы — таулар мен бау-бақшалар қаласы. Медеу мен Шымбұлақтан басқа, Кок-Тобе және Көлсай көлдеріне саяхат жасауды ұсынамын!' : 'Сізге осы орын бойынша ең жақсы маршрут пен локацияларды дайындап жатырмын.'}
+            </div>
+          </div>
+        `;
+        chatMessages.innerHTML += aiMsgHTML;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 600);
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      if (input.value.trim() !== "") {
+        sendQuickMessage(input.value.trim());
+        input.value = "";
+      }
+    }
   </script>
 </body>
 </html>
