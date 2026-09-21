@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QazaqGuide.AI — Қазақстандағы сіздің AI-гидіңіз</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js 3D карта үшін -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center font-bold text-slate-950 text-xl shadow-lg shadow-cyan-500/20">
+          Q
+        </div>
+        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+          QazaqGuide<span class="text-cyan-400">.AI</span>
+        </span>
+      </div>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+        <a href="#features" class="hover:text-cyan-400 transition-colors">Мүмкіндіктер</a>
+        <a href="#map3d" class="hover:text-cyan-400 transition-colors">3D Карта</a>
+        <a href="#register" class="hover:text-cyan-400 transition-colors">Саяхатты бастау</a>
+      </nav>
+      <a href="#register" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-semibold hover:opacity-90 transition-opacity shadow-md shadow-cyan-500/10">
+        Кіру / Бастау
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="pt-36 pb-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_50%)] pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-semibold tracking-wide uppercase">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> Жаңа буындағы жеке ИИ-консьерж
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+        Қазақстанды жеке <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-cyan-400 via-emerald-400 to-teal-200 bg-clip-text text-transparent">AI-көмекшіңізбен</span> ашыңыз
+      </h1>
+      <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
+        Бюджетіңізге сай маршрут сызатын, такси шақыратын, ең дәмді бешбармақты тауып беретін және нақты уақыт режимінде қазақи әдепті үйрететін ақылды серігіңіз.
+      </p>
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#map3d" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-bold text-base hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+          3D картаны зерттеу
+        </a>
+        <a href="#features" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold border border-slate-800 transition-all">
+          Мүмкіндіктерді білу
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-6 bg-slate-900/50 border-y border-slate-800/50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-white">AI-көмекшінің мүмкіндіктері</h2>
+        <p class="text-slate-400">Қазақстан бойынша жайлы әрі терең саяхаттауға арналғанның бәрі</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="wallet" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Бюджет пен мақсатқа сай икемді жоспарлау</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            ЖИ жай ғана дайын үлгіні ұсынбайды. Ол: «Қанша жұмсағың келеді?» және «Саған не қызық?» (белсенді демалыс, тарих, тағамдар, шопинг) деп сұрайды. Осының негізінде ол лезде жеке маршрут құрады — бюджеттік роуд-триптен бастап люкс-демалысқа дейін.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="navigation" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Логистиканы басқару (Дауыстық ассистент)</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Туриске ондаған жергілікті қосымшаны жүктеудің қажеті жоқ. Чат ішінде ЖИ: қалтаға сай жақын жердегі қонақүйді немесе хостелды тауып, брондай алады және жергілікті сервистермен API интеграциясы арқылы қажетті нүктеге дейін такси шақырып береді.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="search-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Терең онлайн-талдау (Өзекті орындар)</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            ЖИ нақты уақыт режимінде пікірлерді, әлеуметтік желілерді және жергілікті блогтарды сканерлейді. Ол дәл қазір ең дәмді бешбармақ қайда екенін, осы аптада қандай кофехана ашылғанын және туристер ағыны жоқ ең көрікті жерлерді біледі.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="heart" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Мәдени жолбасшы және әдеп</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Қазақстан — бай дәстүрі бар ел. ЖИ туристке сапар контекстінде оларды үйретеді. Егер турист қонаққа немесе ресторанға барса, ЖИ түсіндіреді: неге шайдан бас тартуға болмайтынын және шәйді «түбіне құюдың» мәні не екенін, үй иелеріне қалай алғыс айтуды және дәл осы өңірде қандай дәстүрлі тағамды татып көрген жөн екенін айтады.
+          </p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="languages" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Тілдік кедергіні жеңу</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            ЖИ әлемнің кез келген тілін түсінеді, ал жауапты туристің тілінде береді. Параллельді түрде оны негізгі әрі ең жылы қазақша сөздерге («Рахмет», «Ассалаумағалейкум», «Дәмді болсын») үйретеді, бұл жергілікті тұрғындарды бірден баурап алады.
+          </p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all group">
+          <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="life-buoy" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">«SOS» режимі және шұғыл көмек</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Егер турист адасып кетсе, маңдайшадағы жазуды түсінбесе немесе дүкенде түсіндіре алмаса, ол ЖИ-ге фото, аудио немесе геопозиция жібере алады. Көмекші мәтінді аударып береді, жолды көрсетеді немесе сатушыға көрсете салатын фразаны қазақша/орысша жазып береді.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D Map Section -->
+  <section id="map3d" class="py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Қазақстанның интерактивті 3D-картасы</h2>
+        <p class="text-slate-400">Жеке жергілікті AI-гидке қосылу үшін картадан қаланы таңдаңыз</p>
+      </div>
+
+      <div class="relative w-full h-[500px] md:h-[600px] rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+        <!-- Canvas 3D -->
+        <div id="canvas-container" class="w-full h-full cursor-grab"></div>
+
+        <!-- City Selector Info Panel -->
+        <div id="city-info-panel" class="absolute bottom-6 left-6 right-6 md:right-auto md:w-80 bg-slate-950/90 backdrop-blur-md p-6 rounded-2xl border border-slate-800 shadow-xl hidden">
+          <div class="flex items-center justify-between mb-2">
+            <h4 id="city-title" class="text-xl font-bold text-white">Қала</h4>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">AI Белсенді</span>
+          </div>
+          <p id="city-desc" class="text-sm text-slate-400 mb-4">Жеке гидті іске қосу үшін орынды таңдаңыз.</p>
+          <button id="city-btn" class="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all flex items-center justify-center gap-2 text-sm">
+            <span>Гидті белсендіру</span>
+            <i data-lucide="bot" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="absolute top-6 left-6 text-xs text-slate-400 bg-slate-950/70 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-800 pointer-events-none">
+          💡 Қалалардың жарқыраған маркерлерін басыңыз
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration / Onboarding Section -->
+  <section id="register" class="py-20 px-6 bg-slate-900/50 border-t border-slate-800/50">
+    <div class="max-w-xl mx-auto">
+      <div class="text-center mb-10 space-y-3">
+        <h2 class="text-3xl font-bold text-white">AI-гидіңізді жекешелендіріңіз</h2>
+        <p class="text-slate-400 text-sm">ЖИ сіздің тіліңізде сөйлесіп, сапарыңыздың ерекшеліктерін ескеруі үшін негізгі мәліметтерді толтырыңыз.</p>
+      </div>
+
+      <form class="bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-xl">
+        <!-- Name -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-slate-300">Сіздің есіміңіз</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-5 h-5 absolute left-4 top-3.5 text-slate-500"></i>
+            <input type="text" placeholder="Мысалы: Арман немесе John" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors">
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-slate-300">Телефон нөмірі / WhatsApp</label>
+          <div class="relative">
+            <i data-lucide="phone" class="w-5 h-5 absolute left-4 top-3.5 text-slate-500"></i>
+            <input type="tel" placeholder="+7 (707) 000-00-00" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors">
+          </div>
+        </div>
+
+        <!-- Country -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-slate-300">Туған еліңіз (Азаматтығыңыз)</label>
+          <div class="relative">
+            <i data-lucide="globe" class="w-5 h-5 absolute left-4 top-3.5 text-slate-500"></i>
+            <input type="text" placeholder="Мысалы: Германия, Қытай, БӘӘ..." class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors">
+          </div>
+        </div>
+
+        <!-- Preferred Language -->
+        <div class="space-y-2">
+          <label class="text-sm font-medium text-slate-300">Қалайтын қарым-қатынас тілі</label>
+          <div class="relative">
+            <i data-lucide="languages" class="w-5 h-5 absolute left-4 top-3.5 text-slate-500"></i>
+            <select class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-500 transition-colors appearance-none">
+              <option value="kk">Қазақша</option>
+              <option value="ru">Русский</option>
+              <option value="en">English</option>
+              <option value="zh">中文 (Chinese)</option>
+              <option value="tr">Türkçe</option>
+              <option value="ar">العربية (Arabic)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 text-slate-950 font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+          <span>QazaqGuide.AI іске қосу</span>
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 border-t border-slate-800 text-center text-slate-500 text-sm">
+    <p>© 2026 QazaqGuide.AI. Барлық құқықтар қорғалған. Қазақстандағы интеллектуалды туризм.</p>
+  </footer>
+
+  <!-- Scripts Logic -->
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    // Three.js 3D Interactive Map Setup
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x020617); // Slate-950
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 12, 18);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.maxPolarAngle = Math.PI / 2.2;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0x06b6d4, 1.2);
+    dirLight.position.set(10, 20, 10);
+    scene.add(dirLight);
+
+    // Map Base (Stylized Kazakhstan Plane)
+    const geometry = new THREE.PlaneGeometry(22, 12, 32, 32);
+    const material = new THREE.MeshStandardMaterial({ 
+      color: 0x0f172a, 
+      wireframe: true,
+      transparent: true,
+      opacity: 0.8
+    });
+    const mapPlane = new THREE.Mesh(geometry, material);
+    mapPlane.rotation.x = -Math.PI / 2;
+    scene.add(mapPlane);
+
+    // City Markers Data (Kazakh Translations)
+    const cities = [
+      { name: "Астана", desc: "Елорда: сәулет өнері, Бәйтерек, бизнес және футуризм.", x: 1, z: -2, color: 0x06b6d4 },
+      { name: "Алматы", desc: "Таулар, Медеу, Шымбұлақ, гастрономия және алма өлкесі.", x: 6, z: 3, color: 0x10b981 },
+      { name: "Шымкент", desc: "Оңтүстік колорит, тарих, ең дәмді бешбармақ пен қонақжайлылық.", x: 2, z: 4, color: 0xf59e0b },
+      { name: "Ақтау", desc: "Каспий теңізі, жағажайлар, каньондар және Маңғыстаудың ерекше табиғаты.", x: -7, z: 2, color: 0x6366f1 },
+      { name: "Түркістан", desc: "Рухани елорда, Ясауи кесенесі және шығыс ертегісі.", x: 0, z: 3.5, color: 0xec4899 }
+    ];
+
+    const markers = [];
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    cities.forEach(city => {
+      // Pin Geometry
+      const pinGeo = new THREE.SphereGeometry(0.4, 16, 16);
+      const pinMat = new THREE.MeshStandardMaterial({ color: city.color, emissive: city.color, emissiveIntensity: 0.5 });
+      const pin = new THREE.Mesh(pinGeo, pinMat);
+      pin.position.set(city.x, 0.6, city.z);
+      pin.userData = city;
+      scene.add(pin);
+      markers.push(pin);
+
+      // Light beam under pin
+      const cylinderGeo = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8);
+      const cylinderMat = new THREE.MeshBasicMaterial({ color: city.color, transparent: true, opacity: 0.5 });
+      const beam = new THREE.Mesh(cylinderGeo, cylinderMat);
+      beam.position.set(city.x, 0.3, city.z);
+      scene.add(beam);
+    });
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      markers.forEach(pin => {
+        pin.position.y = 0.6 + Math.sin(Date.now() * 0.003 + pin.position.x) * 0.1;
+      });
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Click Detection on Pins
+    window.addEventListener('click', (e) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(markers);
+
+      if (intersects.length > 0) {
+        const selectedCity = intersects[0].object.userData;
+        document.getElementById('city-title').innerText = selectedCity.name;
+        document.getElementById('city-desc').innerText = selectedCity.desc;
+        document.getElementById('city-btn').querySelector('span').innerText = `${selectedCity.name} қ. бойынша ИИ-гидті ашу`;
+        document.getElementById('city-info-panel').classList.remove('hidden');
+      }
+    });
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>
